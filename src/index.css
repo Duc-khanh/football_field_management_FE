@@ -1,13 +1,164 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* index.css - styles cho VenueList và layout chung */
+
+:root{
+  --bg: #0f1724;
+  --card-bg: #0b1220;
+  --muted: #9aa4b2;
+  --accent: #00a3ff;
+  --card-radius: 12px;
+  --soft-shadow: 0 6px 18px rgba(2,8,23,0.6);
+  --glass: rgba(255,255,255,0.03);
+  --container-max: 1200px;
+  --gutter: 1rem;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* body chung */
+html, body, #root {
+  height: 100%;
 }
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #071129 0%, #071730 100%);
+  color: #e6eef6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+/* container */
+.container {
+  max-width: var(--container-max);
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* Heading */
+h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.6rem;
+  color: #fff;
+  letter-spacing: 0.2px;
+}
+
+/* Grid: fallback if bootstrap not loaded */
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+/* Card */
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: var(--soft-shadow);
+  border: 1px solid rgba(255,255,255,0.03);
+  display: flex;
+  flex-direction: column;
+  transition: transform .18s ease, box-shadow .18s ease;
+  min-height: 320px;
+}
+
+/* Hover effect */
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(2,8,23,0.7);
+}
+
+/* Image */
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  background: #0a0f18;
+}
+
+/* card body */
+.card-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+/* title */
+.card-title {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* meta text */
+.card-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+/* small label styles */
+.card .meta {
+  display: flex;
+  justify-content: space-between;
+  gap: .5rem;
+  align-items: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* courts list */
+.card ul {
+  margin: 0.4rem 0 0 1rem;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* No data */
+.no-data {
+  padding: 2rem;
+  text-align: center;
+  color: var(--muted);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px dashed rgba(255,255,255,0.03);
+}
+
+/* Loading spinner */
+.loader {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+}
+.loader:after {
+  content: " ";
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #0b1220;
+  border-color: #0b1220 var(--accent) #0b1220 var(--accent);
+  animation: loader-spin 1.2s linear infinite;
+}
+
+@keyframes loader-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .card img { height: 160px; }
+  h2 { font-size: 1.3rem; }
+}
+
+/* small utilities */
+.mt-4 { margin-top: 1.25rem; }
+.mb-3 { margin-bottom: 0.9rem; }
+.text-muted { color: var(--muted); }
