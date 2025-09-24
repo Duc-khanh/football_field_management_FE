@@ -1,15 +1,20 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 import Header from "./features/fragment/Header";
 import Footer from "./features/fragment/Footer";
 import VenueList from "./features/VenueList";
+import VenueDetail from "./features/VenueDetail";
 
 function App() {
   return (
-    <div className="App">
+    <>
       <Header />
-      <VenueList />
+      <Routes>
+        <Route path="/" element={<VenueList />} />
+        <Route path="/venue/:venueId" element={<VenueDetail />} />
+      </Routes>
       <Footer />
-    </div>
+    </>
   );
 }
 
