@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Stack from "react-bootstrap/Stack";
 import { fetchCurrentUser } from "../../services/authService";
+import { FaSearch, FaUser, FaShoppingCart, FaFutbol, FaUsers } from "react-icons/fa";
 import "./Header.css";
+
 export default function Header() {
   const [user, setUser] = useState(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function loadUser() {
@@ -20,47 +22,46 @@ export default function Header() {
 
   return (
     <header className="header">
-      <Stack
-        direction="horizontal"
-        gap={3}
-        className="header-container px-3 py-2"
-      >
-        <h1 className="logo m-0">
+      <div className="header-container">
+        {/* Logo */}
+        <div className="logo-section">
           <Link to="/" className="logo-link">
-            Sân bóng 247
+            <img src="/images/logo.png" alt="Logo" className="logo-img" />
+            <div className="logo-text">
+              <h1>SPORT WORLD</h1>
+              <p>HEART OF THE GAME</p>
+            </div>
           </Link>
-        </h1>
-
-        <nav className="ms-auto">
-          <ul className="nav-links mb-0">
-            <li>
-              <Link to="/">Sân thể thao</Link>
-            </li>
-            <li>
-              <Link to="/booking">Đặt sân</Link>
-            </li>
-            <li>
-              <Link to="/cart">Giỏ hàng</Link>
-            </li>
-            <li>
-              <Link to="/contact">Liên hệ</Link>
-            </li>
-          </ul>
-        </nav>
-
-        {/* Avatar user */}
-        <div className="user-avatar">
-          <img
-  src={
-    user?.avatarUrl
-      ? `http://localhost:8080/uploads/avatars/${user.avatarUrl}`
-      : "/images/avatar.png"
-  }
-  alt="Avatar"
-  className="avatar-img"
-/>
         </div>
-      </Stack>
+
+        {/* Ô tìm kiếm */}
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Tìm sân thể thao"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <FaSearch className="search-icon" />
+        </div>
+
+        {/* Menu icon */}
+        <nav className="nav-icons">
+          <Link to="/booking" className="nav-item">
+            <FaFutbol />
+            <span>Đặt sân Online</span>
+          </Link>
+          <Link to="/profile" className="nav-item">
+            <FaUser />
+            <span>Tài khoản</span>
+          </Link>
+          <Link to="/cart" className="nav-item cart">
+            <FaShoppingCart />
+            <span>Giỏ hàng</span>
+            <span className="cart-count">0</span>
+          </Link>
+        </nav>
+      </div>
     </header>
   );
 }
