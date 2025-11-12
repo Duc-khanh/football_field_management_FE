@@ -1,0 +1,162 @@
+.venue-detail-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.venue-info-container {
+  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.image-grid-container {
+  display: flex;
+  gap: 10px;
+  height: 400px;
+}
+
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sub-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.sub-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.venue-info-detail {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.venue-info-detail ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.booking-section {
+  display: flex;
+  gap: 20px;
+}
+
+.left-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.right-column {
+  flex: 3;
+}
+
+.booking-form {
+  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.booking-form button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.booking-form button:hover {
+  background: #0056b3;
+}
+
+.timeslot-container {
+  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.timeslot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.week-navigation button {
+  padding: 5px 8px;
+}
+
+.timeslot-grid-wrapper {
+  overflow-x: auto;
+}
+
+.timeslot-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.timeslot-table th,
+.timeslot-table td {
+  padding: 8px;
+  border: 1px solid #eee;
+}
+
+.slot-button {
+  padding: 8px 4px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.slot-button.available {
+  background: #e0f7fa;
+  color: black;
+}
+
+.slot-button.booked {
+  background: #fbe9e7;
+  color: #bf360c;
+  cursor: not-allowed;
+}
+
+.slot-button.expired {
+  background: #f0f0f0;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.slot-button.selected {
+  background: #007bff;
+  color: white;
+}
+
+.loading {
+  text-align: center;
+  padding: 50px;
+}

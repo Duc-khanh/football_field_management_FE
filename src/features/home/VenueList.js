@@ -28,7 +28,6 @@ function VenueList() {
     <div style={{ padding: "20px" }}>
       <h2 style={{ textAlign: "center", marginBottom: "20px" }}>⚽ Danh sách sân bóng</h2>
 
-      {/* Search */}
       <div style={{ textAlign: "center", marginBottom: "20px" }}>
         <input
           type="text"
@@ -39,7 +38,7 @@ function VenueList() {
         />
       </div>
 
-      {/* Venue grid */}
+
       {venues.length === 0 ? (
         <p style={{ textAlign: "center" }}>Không có sân bóng nào.</p>
       ) : (

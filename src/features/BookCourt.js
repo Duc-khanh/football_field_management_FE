@@ -16,13 +16,11 @@ function BookCourt() {
   const [success, setSuccess] = useState("");
 
   useEffect(() => {
-    // Lấy thông tin sân theo courtId
     axios
       .get(`http://localhost:8080/api/cour/${courtId}`)
       .then((res) => setCourt(res.data))
       .catch((err) => console.error("Lỗi lấy thông tin sân:", err));
 
-    // Lấy danh sách khung giờ
     axios
       .get("http://localhost:8080/api/timeslots")
       .then((res) => {
