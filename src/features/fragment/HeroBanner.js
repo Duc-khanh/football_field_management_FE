@@ -5,7 +5,7 @@ export default function HeroBanner() {
   return (
     <section className="hero-banner">
       <div className="hero-background">
-        <img src="/modern-sports-field-stadium.jpg" alt="Hero Background" className="hero-image" />
+        <img src="https://img.lovepik.com/photo/40016/8755.jpg_wh860.jpg" alt="Sân bóng chuyên nghiệp" className="hero-image" />
       </div>
 
       <div className="hero-overlay"></div>
@@ -13,17 +13,20 @@ export default function HeroBanner() {
       <div className="hero-content">
         <div className="hero-text-group">
           <h1 className="hero-title">
-            Tìm Sân Bóng <span className="text-accent">Hoàn Hảo</span>
+            Tìm <span className="text-accent">Sân Bóng</span>
+            <br />
+            <span className="text-highlight">Hoàn Hảo</span>
           </h1>
 
           <p className="hero-subtitle">
-            Khám phá hàng trăm sân bóng chất lượng cao tại thành phố. Đặt sân dễ dàng, nhanh chóng, chỉ trong vài thao
-            tác.
+            Khám phá hàng trăm sân bóng chất lượng cao tại thành phố. <br />
+            Đặt sân dễ dàng, nhanh chóng, chỉ trong vài thao tác.
           </p>
 
           <div className="hero-buttons">
             <Link to="/#venues" className="btn btn-primary">
               Khám phá ngay
+              <span className="btn-arrow">→</span>
             </Link>
             <Link to="/#contact" className="btn btn-secondary">
               Liên hệ tư vấn
@@ -46,6 +49,8 @@ export default function HeroBanner() {
           </div>
         </div>
       </div>
+
+      <div className="hero-accent"></div>
     </section>
   )
 }

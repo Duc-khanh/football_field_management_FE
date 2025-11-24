@@ -63,8 +63,6 @@ function VenueList() {
                 <p className={`venue-status ${v.status ? "active" : "maintenance"}`}>
                   {v.status ? "Hoạt động" : "Đang bảo trì"}
                 </p>
-                <p><strong>Sức chứa:</strong> {v.capacity ?? "N/A"} người</p>
-                <p><strong>Giá:</strong> {v.price ? `${v.price} VNĐ/giờ` : "Liên hệ"}</p>
                 <button
                   className="book-button"
                   onClick={() => navigate(`/booking/${v.venueId}`)}
