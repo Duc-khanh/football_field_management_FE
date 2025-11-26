@@ -7,32 +7,53 @@ import "./Header.css";
 export default function Header() {
   const navigate = useNavigate();
 
-  // 👉 dùng state để component re-render khi đăng nhập
   const [token, setToken] = useState(localStorage.getItem("authToken"));
   const [fullName, setFullName] = useState(localStorage.getItem("fullName"));
 
-  // 👉 Khi load trang hoặc token thay đổi → cập nhật UI
   useEffect(() => {
     setToken(localStorage.getItem("authToken"));
     setFullName(localStorage.getItem("fullName"));
   }, []);
 
-  // 👉 Khi người dùng đăng nhập thành công (localStorage thay đổi)
   window.addEventListener("storage", () => {
     setToken(localStorage.getItem("authToken"));
     setFullName(localStorage.getItem("fullName"));
   });
 
+  // === Xử lý đăng xuất ===
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("fullName");
+    Swal.fire({
+      title: "Bạn có chắc muốn đăng xuất?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Đăng xuất",
+      cancelButtonText: "Hủy"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Xóa dữ liệu đăng nhập
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("fullName");
 
-    navigate("/");
-    window.location.reload();
+        Swal.fire({
+          icon: "success",
+          title: "Đã đăng xuất!",
+          showConfirmButton: false,
+          timer: 1200
+        });
+
+        setTimeout(() => {
+          // Chuyển hướng về trang Thymeleaf login
+          window.location.href = "http://localhost:8080/auth/login";
+        }, 1200);
+      }
+    });
   };
 
+  // === Xử lý khi click vào tài khoản ===
   const handleAccountClick = () => {
     if (!token) {
       Swal.fire({
@@ -41,7 +62,7 @@ export default function Header() {
         text: "Bạn cần đăng nhập để sử dụng chức năng này.",
         confirmButtonText: "Đăng nhập ngay"
       }).then(() => {
-        window.location.href = "http://localhost:3000/login"; 
+        window.location.href = "http://localhost:8080/auth/login"; 
       });
     } else {
       navigate("/profile");
@@ -90,15 +111,11 @@ export default function Header() {
             <span>{token ? fullName : "Tài khoản"}</span>
           </div>
 
-          {/* Đăng xuất & Hồ sơ */}
+          {/* Đăng xuất */}
           {token && (
-            <>
-          
-
-              <div className="nav-item" onClick={handleLogout} style={{ cursor: "pointer" }}>
-                <span>Đăng xuất</span>
-              </div>
-            </>
+            <div className="nav-item" onClick={handleLogout} style={{ cursor: "pointer" }}>
+              <span>Đăng xuất</span>
+            </div>
           )}
 
           {/* Cart */}
@@ -112,4 +129,3 @@ export default function Header() {
     </header>
   );
 }
-  

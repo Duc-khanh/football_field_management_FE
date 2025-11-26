@@ -28,6 +28,12 @@ export default function HeroBanner() {
               Khám phá ngay
               <span className="btn-arrow">→</span>
             </Link>
+            
+            {/* --- Nút mới thêm vào đây --- */}
+            <Link to="/register-owner" className="btn btn-owner">
+              Hợp tác chủ sân
+            </Link>
+            
             <Link to="/#contact" className="btn btn-secondary">
               Liên hệ tư vấn
             </Link>

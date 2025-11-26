@@ -7,6 +7,21 @@
   --color-light: #f8fafc;
 }
 
+/* Loại bỏ margin-right để gap flex xử lý đều đặn */
+.btn-owner {
+  background: linear-gradient(135deg, var(--color-accent), #fbbf24); /* Dùng gradient gold để khớp theme */
+  color: white;
+  border: none;
+  font-weight: 600;
+  /* margin-right: 1rem; */ /* Xóa dòng này để tránh khoảng cách không đều */
+}
+
+.btn-owner:hover {
+  background: linear-gradient(135deg, var(--color-accent-hover), #f59e0b); /* Hover với màu tối hơn */
+  transform: translateY(-3px); /* Nhất quán với các nút khác */
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4); /* Shadow khớp màu accent */
+}
+
 .hero-banner {
   position: relative;
   height: 700px;
@@ -105,7 +120,7 @@
 
 .hero-buttons {
   display: flex;
-  gap: 1.25rem;
+  gap: 1.25rem; /* Giữ gap đều cho tất cả nút */
   justify-content: flex-start;
   flex-wrap: wrap;
   margin-top: 0.5rem;
@@ -124,25 +139,26 @@
   align-items: center;
   gap: 0.5rem;
   letter-spacing: 0.5px;
+  min-width: 150px; /* Thêm min-width để nút không quá nhỏ trên mobile */
 }
 
-/* Updated primary button with emerald green + gold accent */
+/* Cập nhật chỉ cho btn-primary để làm nó nhỏ hơn */
 .btn-primary {
   background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
   color: white;
   box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+  padding: 0.7rem 2rem; /* Giảm padding để nhỏ hơn */
+  font-size: 0.95rem; /* Giảm font-size */
+  min-width: 130px; /* Giảm min-width tương ứng */
 }
-
 .btn-primary:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(16, 185, 129, 0.5);
 }
-
 .btn-arrow {
-  font-size: 1.2rem;
+  font-size: 1.1rem; /* Giảm nhẹ font-size của arrow để khớp */
   transition: transform 0.3s ease;
 }
-
 .btn-primary:hover .btn-arrow {
   transform: translateX(3px);
 }
@@ -227,5 +243,6 @@
   .btn {
     padding: 0.7rem 2rem;
     font-size: 0.95rem;
+    min-width: 120px; /* Giảm min-width trên mobile để vừa màn hình */
   }
 }
