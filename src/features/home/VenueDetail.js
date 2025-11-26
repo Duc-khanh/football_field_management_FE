@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./VenueDetail.css";
 
+// Chuyển Date -> YYYY-MM-DD cho API
 const toApiDateString = (date) => {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -10,6 +11,7 @@ const toApiDateString = (date) => {
   return `${year}-${month}-${day}`;
 };
 
+// Lấy tuần từ ngày
 const getWeekRange = (date) => {
   const start = new Date(date);
   const dayOfWeek = start.getDay();
@@ -25,6 +27,7 @@ const getWeekRange = (date) => {
   };
 };
 
+// Hiển thị tuần dạng dd/mm/yyyy - dd/mm/yyyy
 const getWeekDisplay = (date) => {
   const start = new Date(date);
   const dayOfWeek = start.getDay();
@@ -42,59 +45,43 @@ const getWeekDisplay = (date) => {
   return `${formatDate(start)} - ${formatDate(end)}`;
 };
 
+// Component hiển thị thông tin sân
 const VenueInfo = ({ venue }) => {
   if (!venue) return null;
-  const mainImage = venue.mainImagePath || "/images/broken-image.png";
-  const subImages = venue.images?.slice(0, 4) || [];
+
+  const mainImage = venue.mainImagePath || "broken-image.png";
 
   return (
-    <div className="venue-info-container">
-      <h2>{venue.venueName}</h2>
-      <p>{venue.address}</p>
-
-      <div className="image-grid-container">
-        <div className="main-image">
-          <img
-            src={`http://localhost:8080/uploads/venues/${mainImage}`}
-            alt="Main"
-          />
-        </div>
-        <div className="sub-images">
-          {subImages.map((img, index) => (
+    <div className="venue-info-wrapper">
+      <div className="venue-images-wrapper">
+        <h2 className="venue-name">{venue.venueName}</h2>
+        <div className="venue-images">
+          <div className="main-image">
             <img
-              key={img.imageId || index}
-              src={`http://localhost:8080/uploads/venues/${img.imagePath}`}
-              alt={`Sub ${index}`}
+              src={`http://localhost:8080/uploads/avatars/${mainImage}`}
+              alt="Main"
             />
-          ))}
+          </div>
         </div>
       </div>
 
-      <div className="venue-info-detail">
-        <div>
-          <h4>Thông tin sân</h4>
-          <p>Giờ mở cửa: 6h - 23h</p>
-          <p>
-            Giá sân:{" "}
-            {venue.courts && venue.courts.length > 0
-              ? `${venue.courts[0].pricePerHour}K`
-              : "N/A"}
-          </p>
-        </div>
-        <div>
-          <h4>Dịch vụ tiện ích</h4>
-          <ul>
-            <li>✅ Wifi</li>
-            <li>✅ Bãi đỗ xe</li>
-            <li>✅ Trà đá</li>
-            <li>✅ Căng tin</li>
-          </ul>
-        </div>
+      <div className="venue-sidebar">
+        <h4>Thông tin sân</h4>
+        <p>Địa điểm: {venue.address}</p>
+        <p>Giờ mở cửa: 6h - 23h</p>
+        <p>
+          Giá sân:{" "}
+          {venue.courts && venue.courts.length > 0
+            ? `${venue.courts[0].pricePerHour}K`
+            : "Liên hệ"}
+        </p>
+        <p>Số sân: {venue.totalCourts || 0}</p>
       </div>
     </div>
   );
 };
 
+// Form đặt sân
 const BookingForm = ({ selectedSlot }) => {
   const [formData, setFormData] = useState({
     name: "",
@@ -189,6 +176,7 @@ const BookingForm = ({ selectedSlot }) => {
   );
 };
 
+// Nút slot
 const SlotButton = ({ slot, date, onSelect, isSelected }) => {
   const handleClick = () => {
     if (slot.status === "available") {
@@ -200,40 +188,73 @@ const SlotButton = ({ slot, date, onSelect, isSelected }) => {
     <button
       onClick={handleClick}
       disabled={slot.status !== "available"}
-      className={`slot-button ${slot.status} ${
-        isSelected ? "selected" : ""
-      }`}
+      className={`slot-button ${slot.status} ${isSelected ? "selected" : ""}`}
+      style={{
+        color:
+          slot.status === "expired"
+            ? "#999"
+            : slot.status === "booked"
+            ? "#888"
+            : "#000",
+        fontWeight: slot.status === "available" ? "bold" : "normal",
+      }}
     >
       {slot.status === "expired" && <span>Quá hạn</span>}
       {slot.status === "booked" && <span>Đã đặt</span>}
       {slot.status === "available" && (
         <>
-          <span>{slot.price}K</span>
-          <br />
-          <span>BOOK</span>
+          <div>{slot.time}</div>
+          <div style={{ fontWeight: "normal", fontSize: "0.9em" }}>
+            {slot.price}K
+          </div>
         </>
       )}
     </button>
   );
 };
 
+// ================= TimeslotGrid.jsx =========================
 const TimeslotGrid = ({ courts, onSlotSelect, selectedSlotId }) => {
-  const [selectedCourtId, setSelectedCourtId] = useState(courts[0]?.courId || "");
+  const [selectedCourtId, setSelectedCourtId] = useState("");
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [timeslots, setTimeslots] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [timeFilter, setTimeFilter] = useState("all");
 
   useEffect(() => {
+    if (Array.isArray(courts) && courts.length > 0 && !selectedCourtId) {
+      setSelectedCourtId(courts[0].courId);
+    }
+  }, [courts, selectedCourtId]);
+
+  // Lấy lịch từ API
+  useEffect(() => {
     if (!selectedCourtId) return;
+
     setLoading(true);
     const { startDate, endDate } = getWeekRange(currentWeek);
 
-    axios
-      .get(
-        `http://localhost:8080/api/timeslots?courId=${selectedCourtId}&startDate=${startDate}&endDate=${endDate}`
-      )
+    axios.get(
+  `http://localhost:8080/api/booking/timeslots?courId=${selectedCourtId}&startDate=${startDate}&endDate=${endDate}`
+)
+
       .then((res) => {
-        setTimeslots(res.data || []);
+        let data = Array.isArray(res.data) ? res.data : [];
+
+        // Map DB (start_time + end_time) -> time string
+        data = data.map((day) => {
+          return {
+            ...day,
+            slots: (day.slots || []).map((slot) => ({
+              id: slot.time_slot_id,
+              time: `${slot.start_time.slice(0, 5)} - ${slot.end_time.slice(0, 5)}`,
+              status: slot.status || "available", // default available
+              price: slot.price || 800, // default giá
+            })),
+          };
+        });
+
+        setTimeslots(data);
         setLoading(false);
       })
       .catch(() => {
@@ -248,7 +269,22 @@ const TimeslotGrid = ({ courts, onSlotSelect, selectedSlotId }) => {
     setCurrentWeek(newWeek);
   };
 
-  const timeHeaders = timeslots[0]?.slots.map((slot) => slot.time) || [];
+  const filterSlots = (day) => {
+    if (!Array.isArray(day.slots)) return [];
+    return day.slots.filter((slot) => {
+      if (timeFilter === "all") return true;
+
+      const startHour = parseInt(slot.time.split(":")[0]);
+      if (timeFilter === "morning") return startHour >= 5 && startHour < 12;
+      if (timeFilter === "afternoon") return startHour >= 12;
+      return true;
+    });
+  };
+
+  const timeHeaders =
+    Array.isArray(timeslots[0]?.slots)
+      ? timeslots[0].slots.map((slot) => slot.time)
+      : [];
 
   return (
     <div className="timeslot-container">
@@ -257,11 +293,12 @@ const TimeslotGrid = ({ courts, onSlotSelect, selectedSlotId }) => {
           value={selectedCourtId}
           onChange={(e) => setSelectedCourtId(e.target.value)}
         >
-          {courts.map((court) => (
-            <option key={court.courId} value={court.courId}>
-              {court.courName} ({court.fieldSize})
-            </option>
-          ))}
+          {Array.isArray(courts) &&
+            courts.map((court) => (
+              <option key={court.courId} value={court.courId}>
+                {court.courName} ({court.fieldSize})
+              </option>
+            ))}
         </select>
 
         <div className="week-navigation">
@@ -271,21 +308,29 @@ const TimeslotGrid = ({ courts, onSlotSelect, selectedSlotId }) => {
         </div>
 
         <div className="time-filter">
-          <button>Khung sáng</button>
-          <button>Khung chiều</button>
+          <button
+            className={timeFilter === "morning" ? "active" : ""}
+            onClick={() => setTimeFilter("morning")}
+          >
+            Khung sáng
+          </button>
+          <button
+            className={timeFilter === "afternoon" ? "active" : ""}
+            onClick={() => setTimeFilter("afternoon")}
+          >
+            Khung chiều
+          </button>
         </div>
       </div>
 
       <div className="timeslot-grid-wrapper">
         {loading ? (
           <p>Đang tải lịch...</p>
-        ) : timeslots.length === 0 ? (
-          <p>Không có lịch khả dụng cho loại sân này trong tuần.</p>
-        ) : (
+        ) : Array.isArray(timeslots) && timeslots.length > 0 ? (
           <table className="timeslot-table">
             <thead>
               <tr>
-                <th></th>
+                <th>Ngày</th>
                 {timeHeaders.map((time) => (
                   <th key={time}>{time}</th>
                 ))}
@@ -297,15 +342,15 @@ const TimeslotGrid = ({ courts, onSlotSelect, selectedSlotId }) => {
                   <td>
                     <b>{day.dayOfWeek}</b>
                     <br />
-                    <span>{day.date}</span>
+                    {day.date}
                   </td>
-                  {day.slots.map((slot) => (
+                  {filterSlots(day).map((slot) => (
                     <td key={slot.id}>
                       <SlotButton
                         slot={slot}
                         date={day.date}
-                        isSelected={selectedSlotId === slot.id}
                         onSelect={onSlotSelect}
+                        isSelected={selectedSlotId === slot.id}
                       />
                     </td>
                   ))}
@@ -313,12 +358,16 @@ const TimeslotGrid = ({ courts, onSlotSelect, selectedSlotId }) => {
               ))}
             </tbody>
           </table>
+        ) : (
+          <p>Không có lịch khả dụng.</p>
         )}
       </div>
     </div>
   );
 };
 
+
+// ================= Main Component ======================
 function VenueDetail() {
   const { venueId } = useParams();
   const [venue, setVenue] = useState(null);
@@ -329,7 +378,7 @@ function VenueDetail() {
     setLoading(true);
     setSelectedSlot(null);
     axios
-      .get(`http://localhost:8080/api/venue/${venueId}`)
+      .get(`http://localhost:8080/api/home/${venueId}`)
       .then((res) => {
         setVenue(res.data);
         setLoading(false);

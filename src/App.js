@@ -5,7 +5,7 @@ import Footer from "./features/fragment/Footer";
 import HeroBanner from "./features/fragment/HeroBanner";
 import VenueList from "./features/home/VenueList";
 import VenueDetail from "./features/home/VenueDetail";
-import BookCourt from "./features/BookCourt";
+import BookCourt from "./features/booking/BookCourt";
 
 function App() {
   return (

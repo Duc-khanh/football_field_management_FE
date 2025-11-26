@@ -8,6 +8,13 @@ function VenueList() {
   const [topVenues, setTopVenues] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
+
+  // filter state
+  const [keyword, setKeyword] = useState("");
+  const [district, setDistrict] = useState("all");
+  const [rating, setRating] = useState("all");
+  const [price, setPrice] = useState("all");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +34,7 @@ function VenueList() {
 
   const loadVenues = () => {
     axios
-      .get(`http://localhost:8080/api/home?page=${page}&size=10`)
+      .get(`http://localhost:8080/api/home?page=${page}&size=10&keyword=${keyword}`)
       .then((res) => {
         const content = Array.isArray(res.data) ? res.data : res.data?.content || [];
         setVenues(content);
@@ -36,94 +43,124 @@ function VenueList() {
       .catch((err) => console.error(err));
   };
 
-  const handlePrev = () => page > 0 && setPage(page - 1);
-  const handleNext = () => page + 1 < totalPages && setPage(page + 1);
+  const handleSearch = () => {
+    setPage(0);
+    loadVenues();
+  };
+
+  const resetFilter = () => {
+    setKeyword("");
+    setDistrict("all");
+    setRating("all");
+    setPrice("all");
+    setPage(0);
+    loadVenues();
+  };
 
   return (
     <div className="venue-container">
-      {/* Top 5 sân nổi bật */}
-      <h2 className="section-title">⚡ Sân nổi bật</h2>
-      {topVenues.length > 0 ? (
-        <div className="top-venue-wrapper">
-          {topVenues.map((v) => (
-            <div key={v.venueId} className="venue-card">
-              <img
-                src={
-                  v.mainImagePath
-                    ? `http://localhost:8080/uploads/avatars/${v.mainImagePath}`
-                    : "/images/broken-image.png"
-                }
-                alt={v.venueName}
-                className="venue-image"
+      {/* Thanh tìm kiếm */}
+<div className="search-wrapper">
+
+  {/* Ô nhập từ khóa */}
+  <div className="search-box">
+    <i className="fa fa-search search-icon"></i>
+    <input type="text" placeholder="Tìm sân thể thao..." />
+  </div>
+
+  {/* Bộ lọc */}
+  <div className="filter-item">
+    <span className="filter-title">Khu vực ⌄</span>
+    <p className="filter-value">Tất cả</p>
+  </div>
+
+  <div className="filter-item">
+    <span className="filter-title">Đánh giá ⌄</span>
+    <p className="filter-value">Tất cả</p>
+  </div>
+
+  <div className="filter-item">
+    <span className="filter-title">Mức giá ⌄</span>
+    <p className="filter-value">Tất cả</p>
+  </div>
+
+  <button className="btn-search">Tìm sân</button>
+</div>
+
+
+      {/* ============ TOP VENUE ============ */}
+      <h2 className="section-title">Sân nổi bật</h2>
+      <div className="top-venue-wrapper">
+        {topVenues.map((v) => (
+          <div key={v.venueId} className="venue-card">
+            <img
+              src={
+                v.mainImagePath
+                  ? `http://localhost:8080/uploads/avatars/${v.mainImagePath}`
+                  : "/images/broken-image.png"
+              }
+              alt={v.venueName}
+              className="venue-image"
+              onClick={() => navigate(`/venue/${v.venueId}`)}
+            />
+            <div className="venue-info">
+              <h4>{v.venueName}</h4>
+              <p>Khu vực: {v.district?.districtName || "Chưa xác định"}</p>
+              <p>Số sân: {v.totalCourts} sân</p>
+              <p>Giá: {v.price ? `${v.price} VNĐ/giờ` : "Liên hệ"}</p>
+              <button
+                className="book-button"
                 onClick={() => navigate(`/venue/${v.venueId}`)}
-              />
-              <div className="venue-info">
-                <h4>{v.venueName}</h4>
-                <p><strong>Khu vực:</strong> {v.district?.districtName || "Chưa xác định"}</p>
-                <p className={`venue-status ${v.status ? "active" : "maintenance"}`}>
-                  {v.status ? "Hoạt động" : "Đang bảo trì"}
-                </p>
-                <p><strong>Sức chứa:</strong> {v.capacity ?? "N/A"} người</p>
-                <p><strong>Giá:</strong> {v.price ? `${v.price} VNĐ/giờ` : "Liên hệ"}</p>
-                <button
-                  className="book-button"
-                  onClick={() => navigate(`/booking/${v.venueId}`)}
-                >
-                  Đặt sân
-                </button>
-              </div>
+              >
+                Đặt sân
+              </button>
             </div>
-          ))}
-        </div>
-      ) : (
-        <p className="no-result">Không có sân nổi bật.</p>
-      )}
-
-      {/* Danh sách sân bình thường */}
-      <h2 className="section-title">⚽ Danh sách sân bóng</h2>
-      {venues.length > 0 ? (
-        <>
-          <div className="venue-grid">
-            {venues.map((v) => (
-              <div key={v.venueId} className="venue-card">
-                <img
-                  src={
-                    v.mainImagePath
-                      ? `http://localhost:8080/uploads/avatars/${v.mainImagePath}`
-                      : "/images/broken-image.png"
-                  }
-                  alt={v.venueName}
-                  className="venue-image"
-                  onClick={() => navigate(`/venue/${v.venueId}`)}
-                />
-                <div className="venue-info">
-                  <h4>{v.venueName}</h4>
-                  <p><strong>Khu vực:</strong> {v.address || "N/A"}</p>
-                  <p><strong>Sức chứa:</strong> {v.capacity ?? "N/A"} người</p>
-                  <p><strong>Giá:</strong> {v.price ? `${v.price} VNĐ/giờ` : "Liên hệ"}</p>
-                  <p className={`venue-status ${v.status ? "active" : "maintenance"}`}>
-                    {v.status ? "Hoạt động" : "Đang bảo trì"}
-                  </p>
-                  <button
-                    className="book-button"
-                    onClick={() => navigate(`/booking/${v.venueId}`)}
-                  >
-                    Đặt sân
-                  </button>
-                </div>
-              </div>
-            ))}
           </div>
+        ))}
+      </div>
 
-          <div className="pagination">
-            <button onClick={handlePrev} disabled={page === 0}>← Trang trước</button>
-            <span>Trang {page + 1}/{totalPages}</span>
-            <button onClick={handleNext} disabled={page + 1 >= totalPages}>Trang sau →</button>
+      {/* ============ VENUE LIST ============ */}
+      <h2 className="section-title">Danh sách sân bóng</h2>
+
+      <div className="venue-grid">
+        {venues.map((v) => (
+          <div key={v.venueId} className="venue-card">
+            <img
+              src={
+                v.mainImagePath
+                  ? `http://localhost:8080/uploads/avatars/${v.mainImagePath}`
+                  : "/images/broken-image.png"
+              }
+              alt={v.venueName}
+              className="venue-image"
+              onClick={() => navigate(`/venue/${v.venueId}`)}
+            />
+            <div className="venue-info">
+              <h4>{v.venueName}</h4>
+              <p>Khu vực: {v.address || "N/A"}</p>
+              <p>Số sân: {v.totalCourts} sân</p>
+              <p>Giá: {v.price ? `${v.price} VNĐ/giờ` : "Liên hệ"}</p>
+              <button
+                className="book-button"
+                onClick={() => navigate(`/venue/${v.venueId}`)}
+              >
+                Đặt sân
+              </button>
+            </div>
           </div>
-        </>
-      ) : (
-        <p className="no-result">Không có sân bóng nào.</p>
-      )}
+        ))}
+      </div>
+
+      <div className="pagination">
+        <button onClick={() => setPage(page - 1)} disabled={page === 0}>
+          ← Trang trước
+        </button>
+        <span>Trang {page + 1}/{totalPages}</span>
+        <button onClick={() => setPage(page + 1)} disabled={page + 1 >= totalPages}>
+          Trang sau →
+        </button>
+      </div>
+
     </div>
   );
 }
