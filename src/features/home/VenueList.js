@@ -104,7 +104,7 @@ function VenueList() {
               onClick={() => navigate(`/venue/${v.venueId}`)}
             />
             <div className="venue-info">
-              <h4>{v.venueName}</h4>
+<h4>{v.venueName}</h4>
               <p>Khu vực: {v.district?.districtName || "Chưa xác định"}</p>
               <p>Số sân: {v.totalCourts} sân</p>
               <p>Giá: {v.price ? `${v.price} VNĐ/giờ` : "Liên hệ"}</p>

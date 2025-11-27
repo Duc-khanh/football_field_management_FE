@@ -1,7 +1,7 @@
 .header {
   background-color: #fff;
   border-bottom: 1px solid #eee;
-  padding: 12px 48px; /* tăng nhẹ từ 10px → 12px, margin 40px → 48px */
+  padding: 12px 48px;
   font-family: "Inter", sans-serif;
 }
 
@@ -11,7 +11,7 @@
   justify-content: space-between;
 }
 
-/* ===== Logo ===== */
+/* Logo */
 .logo-section {
   display: flex;
   align-items: center;
@@ -25,33 +25,33 @@
 }
 
 .logo-img {
-  height: 48px; /* tăng từ 40px → 48px */
-  margin-right: 12px; /* tăng từ 10px → 12px */
+  height: 48px;
+  margin-right: 12px;
 }
 
 .logo-text h1 {
-  font-size: 24px; /* từ 20px → 24px */
+  font-size: 24px;
   font-weight: 700;
   margin: 0;
 }
 
 .logo-text p {
-  font-size: 14px; /* từ 12px → 14px */
+  font-size: 14px;
   margin: 0;
   color: #6c757d;
   letter-spacing: 1px;
 }
 
-/* ===== Search bar ===== */
+/* Search bar */
 .search-bar {
   flex: 1;
   display: flex;
   align-items: center;
   background-color: #f5f5f5;
-  border-radius: 9px; /* tăng nhẹ */
-  padding: 8px 12px; /* tăng nhẹ padding */
-  margin: 0 48px; /* tăng margin */
-  max-width: 720px; /* tăng 1.2 lần */
+  border-radius: 9px;
+  padding: 8px 12px;
+  margin: 0 48px;
+  max-width: 720px;
 }
 
 .search-bar input {
@@ -59,20 +59,20 @@
   outline: none;
   background: transparent;
   flex: 1;
-  font-size: 19px; /* từ 16px → 19px */
+  font-size: 19px;
   color: #555;
 }
 
 .search-icon {
-  font-size: 22px; /* từ 18px → 22px */
+  font-size: 22px;
   color: #888;
 }
 
-/* ===== Icons nav ===== */
+/* Navigation */
 .nav-icons {
   display: flex;
   align-items: center;
-  gap: 30px; /* từ 25px → 30px */
+  gap: 30px;
 }
 
 .nav-item {
@@ -81,12 +81,12 @@
   align-items: center;
   color: #0b1f3a;
   text-decoration: none;
-  font-size: 16px; /* từ 14px → 16px */
+  font-size: 16px;
   position: relative;
 }
 
 .nav-item svg {
-  font-size: 26px; /* từ 22px → 26px */
+  font-size: 26px;
   margin-bottom: 4px;
 }
 
@@ -100,17 +100,45 @@
   right: -11px;
   background: #e63946;
   color: #fff;
-  font-size: 13px; /* từ 11px → 13px */
+  font-size: 13px;
   font-weight: bold;
   border-radius: 50%;
   padding: 3px 6px;
 }
 
-/* ===== Responsive ===== */
+/* Dropdown */
+.account-dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 200px;
+  z-index: 9999;
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #0b1f3a;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .header-container {
     flex-direction: column;
-    gap: 12px; /* từ 10px → 12px */
+    gap: 12px;
   }
 
   .search-bar {

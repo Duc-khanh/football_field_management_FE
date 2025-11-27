@@ -1,0 +1,116 @@
+/* Import file alert.css của bạn nếu có */
+/* @import url('./alert.css'); */
+
+.login-page {
+  background-color: #f0f2f5; /* Màu nền xám nhạt */
+}
+
+.auth-wrap {
+  /* Box shadow và border-radius đã được thêm bởi class Bootstrap */
+  /* 'rounded-4 overflow-hidden shadow-lg' */
+}
+
+/* === Cột bên trái (Side) === */
+.bg-side {
+  background: linear-gradient(-45deg, #007bff, #0056b3); /* Gradient màu xanh */
+  background-size: 200% 200%;
+  animation: gradientBG 10s ease infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hiệu ứng gradient chạy */
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Lớp phủ mờ (nếu bạn có ảnh nền) */
+.bg-side::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3); /* Lớp phủ đen mờ */
+  z-index: 0;
+}
+
+.brand-title {
+  font-weight: 700;
+  font-size: 3rem;
+  letter-spacing: 1px;
+}
+
+/* === Trường Input tùy chỉnh (Floating Label) === */
+.input-field {
+  position: relative;
+}
+
+/* Sử dụng :has() selector hiện đại nếu trình duyệt hỗ trợ, 
+  nhưng để tương thích rộng, chúng ta dùng cách khác với JS/React.
+  Tuy nhiên, React-Bootstrap <Form.Control> và <Form.Label>
+  đã tự xử lý việc này (floating labels) nếu bạn dùng "floating" prop.
+  
+  Để GIỐNG HỆT file của bạn (không dùng floating prop), 
+  ta sẽ style dựa trên cấu trúc DOM mà React-Bootstrap tạo ra.
+*/
+
+/* CSS này dựa trên style của file HTML gốc */
+.input-field {
+    position: relative;
+}
+
+.input-field label {
+    position: absolute;
+    top: 50%;
+    left: 1rem; /* 16px (giống padding của input) */
+    transform: translateY(-50%);
+    color: #6c757d; /* text-muted */
+    pointer-events: none;
+    transition: all 0.2s ease-out;
+    background: #fff; /* Cần thiết để che đường viền input */
+    padding: 0 4px; /* Tạo khoảng trống xung quanh text */
+}
+
+.input-field .form-control {
+    padding: 0.75rem 1rem; /* 12px 16px */
+    height: auto;
+}
+
+/* Khi input có giá trị, hoặc đang được focus
+  (Bootstrap .is-invalid, .is-valid cũng nên kích hoạt)
+*/
+.input-field .form-control:focus + label,
+.input-field .form-control:not(:placeholder-shown) + label,
+.input-field .form-control.is-invalid + label,
+.input-field .form-control.is-valid + label {
+    top: 0;
+    left: 0.75rem; /* 12px */
+    font-size: 0.75rem; /* 12px */
+    color: #0d6efd; /* primary color */
+}
+
+/* Màu label khi input bị invalid */
+.input-field .form-control.is-invalid:focus + label,
+.input-field .form-control.is-invalid + label {
+    color: #dc3545; /* danger color */
+}
+
+/* Icon mật khẩu */
+.passicon {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 5;
+    color: #6c757d;
+}
+
+/* Đảm bảo icon không bị đè lên bởi feedback lỗi */
+.form-control.is-invalid ~ .passicon {
+   right: 2.5rem; /* Dịch qua trái để chừa chỗ cho icon lỗi */
+}
