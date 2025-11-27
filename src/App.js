@@ -8,15 +8,18 @@ import Footer from "./features/fragment/Footer";
 import HeroBanner from "./features/fragment/HeroBanner";
 import VenueList from "./features/home/VenueList";
 import VenueDetail from "./features/home/VenueDetail";
-import BookCourt from "./features/BookCourt";
+import BookCourt from "./features/bookings/BookCourt";
 
 // Auth Components
 import Login from "./features/auth/login";
 import Register from "./features/auth/register";
-import OwnerRegistration from "./features/auth/OwnerRegistration"; // Import component đăng ký Owner
+import OwnerRegistration from "./features/auth/OwnerRegistration";
 import LoginSuccess from "./features/LoginSuccess";
 
-import Profile from "./features/accout/profile"; // Đã sửa đường dẫn dư dấu //
+import Profile from "./features/accout/profile";
+
+// NEW Payment Component
+import Payment from "./components/booking/PaymentPage";
 
 function Layout() {
   return (
@@ -32,14 +35,15 @@ function App() {
   return (
     <Routes>
 
-      {/* Auth Pages - Các trang không có Header/Footer */}
+      {/* Auth Pages */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/register-owner" element={<OwnerRegistration />} /> {/* Route mới cho Owner */}
+      <Route path="/register-owner" element={<OwnerRegistration />} />
       <Route path="/login-success" element={<LoginSuccess />} />
 
-      {/* Layout pages - Các trang có Header/Footer */}
+      {/* Pages with Header/Footer */}
       <Route path="/" element={<Layout />}>
+
         <Route index element={
           <>
             <HeroBanner />
@@ -49,7 +53,12 @@ function App() {
 
         <Route path="venue/:venueId" element={<VenueDetail />} />
         <Route path="book/:courtId" element={<BookCourt />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="profile" element={<Profile />} />
+
+        {/* ⭐ NEW PAYMENT ROUTE ⭐ */}
+        <Route path="payment" element={<Payment />} />
+        <Route path="payment/:bookingId" element={<Payment />} />
+
       </Route>
 
     </Routes>

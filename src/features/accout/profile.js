@@ -21,9 +21,12 @@ export default function Profile() {
         Authorization: `Bearer ${token}`,
       },
     })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error("Unauthorized");
+        return res.json();
+      })
       .then(data => setProfile(data))
-      .catch(err => console.log("Lỗi fetch profile:", err));
+      .catch(err => console.log("Lỗi:", err));
   }, [token]);
 
   const handleChange = (e) => {
@@ -40,15 +43,15 @@ export default function Profile() {
       body: JSON.stringify(profile),
     })
       .then(res => {
-        if (!res.ok) return res.json().then(err => { throw err; });
+        if (!res.ok) throw new Error("Cập nhật thất bại");
         return res.json();
       })
       .then(data => {
-        setProfile(data);
+        setProfile(data); // Cập nhật state mới
         alert("Cập nhật thành công!");
       })
       .catch(err => {
-        console.error("Cập nhật thất bại:", err);
+        console.error("Lỗi:", err);
         alert("Cập nhật thất bại. Vui lòng thử lại.");
       });
   };
@@ -100,6 +103,7 @@ export default function Profile() {
                   className="form-control"
                   name="email"
                   value={profile.email}
+                  onChange={handleChange}
                   readOnly
                 />
               </div>

@@ -1,3 +1,84 @@
+
+/* Wrapper của toàn bộ search */
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  margin-bottom: 40px;
+}
+
+/* Ô search */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f2f2f2;
+  padding: 10px 15px;
+  border-radius: 10px;
+  width: 360px;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  width: 100%;
+}
+
+.search-icon {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Filter item */
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.filter-title {
+  font-size: 15px;
+  color: #333;
+  font-weight: 600;
+}
+
+.filter-value {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Nút tìm và reset */
+.btn-search {
+  background: #0b1f3a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-reset {
+  background: #e74c3c;
+  color: white;
+  padding: 10px 15px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+
+
+
+
 /* Nền nổi bật cho container top venue */
 .top-venue-wrapper {
   display: flex;
