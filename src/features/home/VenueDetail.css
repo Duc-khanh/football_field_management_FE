@@ -1,0 +1,400 @@
+/* === VenueDetail.css === */
+
+.venue-detail-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  padding: 40px;
+}
+
+/* ===== Venue Info ===== */
+.venue-info-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+/* Sidebar */
+.venue-sidebar {
+  flex: 1;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.venue-sidebar h4 {
+  margin-top: 0;
+}
+
+/* Ảnh + tên sân */
+.venue-info-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+/* Sidebar */
+.venue-sidebar {
+  flex: 1; /* chiếm 25-30% */
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.venue-sidebar h4 {
+  margin-top: 0;
+}
+
+/* Ảnh + tên sân */
+.venue-info-wrapper {
+  display: flex;
+  gap: 20px;
+  align-items: stretch; /* Sidebar cao bằng ảnh */
+  margin-bottom: 30px;
+}
+
+/* Sidebar */
+.venue-sidebar {
+  flex: 1; /* chiếm ~25% */
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fafafa;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* Ảnh + tên sân */
+.venue-images-wrapper {
+  flex: 3; /* chiếm ~75% */
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.venue-name {
+  margin-bottom: 10px; /* cách ảnh 10px */
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.venue-images {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.main-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.sub-images {
+  display: flex;
+  gap: 10px;
+}
+
+.sub-images img {
+  width: calc(25% - 7.5px);
+  height: 80px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+
+
+.venue-sidebar {
+  flex: 1; /* sidebar chiếm 25% */
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.venue-sidebar h4 {
+  margin-top: 0;
+}
+
+
+
+/* Images */
+.image-grid-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.main-image {
+  flex: 2;
+}
+
+.main-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.sub-images {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.sub-images img {
+  width: 100%;
+  height: 145px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Venue details */
+.venue-info-detail {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.venue-info-detail h4 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.venue-info-detail ul {
+  list-style: none;
+  padding: 0;
+}
+
+.venue-info-detail li {
+  margin-bottom: 6px;
+}
+
+/* ===== Booking Section ===== */
+.booking-section {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.left-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.right-column {
+  flex: 2;
+  min-width: 400px;
+}
+
+/* Booking form */
+.booking-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.booking-form h4 {
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.booking-form input,
+.booking-form select,
+.booking-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.booking-form textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.booking-form button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.booking-form button:hover {
+  background-color: #0056b3;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+/* ===== Timeslot Grid ===== */
+.timeslot-container {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.timeslot-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.timeslot-header select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.week-navigation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.week-navigation button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #007bff;
+  background-color: white;
+  color: #007bff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.week-navigation button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.time-filter button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: white;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.time-filter button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Timeslot table */
+.timeslot-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.timeslot-table th,
+.timeslot-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.timeslot-table th {
+  background-color: #f1f1f1;
+}
+/* ===== Slot Column Groups (Sáng / Chiều / Tối) ===== */
+.timeslot-table th.group-heading {
+  background-color: #e6f0ff;
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+}
+
+/* Căn đều chiều rộng mỗi cột */
+.timeslot-table td, 
+.timeslot-table th {
+  min-width: 140px;
+}
+
+
+.slot-button {
+  border: 1px solid #ddd;
+  padding: 4px 6px;       /* giảm padding */
+  min-width: 65px;        /* nhỏ hơn */
+  min-height: 60px;       /* giảm chiều cao */
+  font-size: 15px;        /* chữ nhỏ lại */
+  cursor: pointer;
+  background: white;
+  transition: background-color 0.3s;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.slot-button.expired {
+  color: #999;
+  cursor: not-allowed;
+  background: #f5f5f5;
+}
+
+.slot-button.booked {
+  color: #888;
+  cursor: not-allowed;
+  background: #fafafa;
+}
+
+.slot-button.available:hover {
+  background-color: #e0e7ff;
+}
+
+.slot-button.selected {
+  border-color: #3b82f6;
+  background-color: #bfdbfe;
+  font-weight: bold;
+}
+
+
+/* Responsive */
+@media screen and (max-width: 900px) {
+  .venue-info-detail {
+    flex-direction: column;
+  }
+  .booking-section {
+    flex-direction: column;
+  }
+  .image-grid-container {
+    flex-direction: column;
+  }
+  .sub-images {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

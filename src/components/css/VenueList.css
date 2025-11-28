@@ -1,0 +1,197 @@
+
+/* Wrapper của toàn bộ search */
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  margin-bottom: 40px;
+}
+
+/* Ô search */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f2f2f2;
+  padding: 10px 15px;
+  border-radius: 10px;
+  width: 360px;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  width: 100%;
+}
+
+.search-icon {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Filter item */
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.filter-title {
+  font-size: 15px;
+  color: #333;
+  font-weight: 600;
+}
+
+.filter-value {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Nút tìm và reset */
+.btn-search {
+  background: #0b1f3a;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-reset {
+  background: #e74c3c;
+  color: white;
+  padding: 10px 15px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+
+
+
+
+/* Nền nổi bật cho container top venue */
+.top-venue-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  background-color: #e0f7fa; /* Nền nổi bật */
+  padding: 15px;
+  border-radius: 12px;
+  justify-content: flex-start;
+}
+
+/* Card y hệt danh sách sân */
+.venue-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  cursor: pointer;
+  width: 220px;
+  transition: transform 0.3s;
+}
+
+.venue-card:hover {
+  transform: translateY(-5px);
+}
+
+.venue-image {
+  width: calc(100% - 10px);
+  height: 140px;
+  object-fit: cover;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+.venue-info {
+  padding: 10px;
+}
+
+.venue-info h4 {
+  font-size: 16px;
+  margin: 0 0 5px;
+  color: #0b1f3a;
+  font-weight: 600;
+}
+
+.venue-info p {
+  font-size: 14px;
+  margin: 3px 0;
+}
+
+.venue-status.active {
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+.venue-status.maintenance {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.book-button {
+  margin-top: 8px;
+  width: 100%;
+  padding: 8px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.book-button:hover {
+  background-color: #0056b3;
+}
+
+/* Grid danh sách sân */
+.venue-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background: #0056b3;
+}
+
+.pagination button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Section title */
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 20px 0 10px;
+}
