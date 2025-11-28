@@ -119,11 +119,14 @@ export default function Header() {
           )}
 
           {/* Cart */}
-          <Link to="/cart" className="nav-item cart">
+          {/* <Link to="/cart" className="nav-item cart">
             <FaShoppingCart />
             <span>Giỏ hàng</span>
             <span className="cart-count">0</span>
-          </Link>
+          </Link> */}
+          <Link to="/my-bookings" className="nav-link">
+  Sân đã đặt
+</Link>
         </nav>
       </div>
     </header>

@@ -9,6 +9,7 @@ import HeroBanner from "./features/fragment/HeroBanner";
 import VenueList from "./features/home/VenueList";
 import VenueDetail from "./features/home/VenueDetail";
 import BookCourt from "./features/bookings/BookCourt";
+import MyBookings from "./features/accout/MyBookings";
 
 // Auth Components
 import Login from "./features/auth/login";
@@ -54,6 +55,8 @@ function App() {
         <Route path="venue/:venueId" element={<VenueDetail />} />
         <Route path="book/:courtId" element={<BookCourt />} />
         <Route path="profile" element={<Profile />} />
+        
+<Route path="/my-bookings" element={<MyBookings />} />
 
         {/* ⭐ NEW PAYMENT ROUTE ⭐ */}
         <Route path="payment" element={<Payment />} />
