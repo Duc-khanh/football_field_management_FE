@@ -5,11 +5,18 @@ import Swal from "sweetalert2";
 export default function MyBookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("authToken");
 
   useEffect(() => {
     if (!token) {
-      Swal.fire("Bạn chưa đăng nhập", "Vui lòng đăng nhập để xem lịch đặt sân", "warning");
+      Swal.fire({
+        icon: 'warning',
+        title: 'Bạn chưa đăng nhập',
+        text: 'Vui lòng đăng nhập để xem lịch đặt sân',
+        confirmButtonText: 'Đi đến trang đăng nhập'
+      }).then(() => {
+        window.location.href = "http://localhost:8080/auth/login";
+      });
       return;
     }
 
@@ -21,7 +28,11 @@ export default function MyBookings() {
     })
     .catch(err => {
       console.error(err);
-      Swal.fire("Lỗi", "Không tải được lịch đặt sân", "error");
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: 'Không tải được lịch đặt sân',
+      });
     })
     .finally(() => {
       setLoading(false);
@@ -45,6 +56,7 @@ export default function MyBookings() {
           <table className="table table-striped table-hover">
             <thead className="table-light">
               <tr>
+                <th scope="col">STT</th> {/* Thêm cột STT */}
                 <th scope="col">🏟 Tên sân</th>
                 <th scope="col">📅 Ngày</th>
                 <th scope="col">⏰ Thời gian</th>
@@ -53,8 +65,9 @@ export default function MyBookings() {
               </tr>
             </thead>
             <tbody>
-              {bookings.map(b => (
+              {bookings.map((b, index) => (  // Thêm index vào map
                 <tr key={b.bookingId}>
+                  <td>{index + 1}</td> {/* Hiển thị số thứ tự */}
                   <td className="fw-bold">{b.courtName}</td>
                   <td>{b.date}</td>
                   <td>{b.time}</td>

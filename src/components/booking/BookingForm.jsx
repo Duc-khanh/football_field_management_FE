@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const BookingForm = ({ selectedSlot }) => {
   const navigate = useNavigate();
@@ -13,17 +13,22 @@ const BookingForm = ({ selectedSlot }) => {
     note: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [userName, setUserName] = useState("");
 
   // Kiểm tra login khi load form
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
     const fullName = localStorage.getItem("fullName");
 
     if (!token) {
-      alert("⚠️ Bạn cần đăng nhập trước khi đặt sân!");
-      navigate("/login");
+      Swal.fire({
+        icon: "warning",
+        title: "Bạn cần đăng nhập",
+        text: "Vui lòng đăng nhập trước khi đặt sân",
+        confirmButtonText: "Đi đến trang đăng nhập",
+      }).then(() => {
+        navigate("/login");
+      });
       return;
     }
 
@@ -76,21 +81,34 @@ const BookingForm = ({ selectedSlot }) => {
     e.preventDefault();
 
     if (!selectedSlot) {
-      alert("Vui lòng chọn khung giờ!");
+      Swal.fire({
+        icon: "warning",
+        title: "Chưa chọn khung giờ",
+        text: "Vui lòng chọn khung giờ trước khi đặt sân",
+      });
       return;
     }
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("authToken");
 
     if (!token) {
-      alert("⚠️ Phiên đăng nhập hết hạn!");
-      navigate("/login");
+      Swal.fire({
+        icon: "error",
+        title: "Phiên đăng nhập hết hạn",
+        confirmButtonText: "Đăng nhập lại",
+      }).then(() => {
+        navigate("/login");
+      });
       return;
     }
 
     const slotId = selectedSlot.time_slot_id || selectedSlot.id;
     if (!slotId) {
-      alert("Không tìm thấy Slot ID.");
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi",
+        text: "Không tìm thấy Slot ID",
+      });
       return;
     }
 
@@ -106,13 +124,12 @@ const BookingForm = ({ selectedSlot }) => {
       duration: calculateDuration(selectedSlot),
     };
 
-navigate("/payment", {
-  state: {
-    bookingData: bookingPayload,
-    selectedSlot: selectedSlot,
-  },
-});
-
+    navigate("/payment", {
+      state: {
+        bookingData: bookingPayload,
+        selectedSlot: selectedSlot,
+      },
+    });
   };
 
   return (
@@ -123,14 +140,12 @@ navigate("/payment", {
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label small text-muted">Người đặt</label>
-
             <input
               type="text"
               className="form-control mb-2"
               value={userName}
               readOnly
             />
-
             <input
               type="tel"
               name="phone"
@@ -155,7 +170,6 @@ navigate("/payment", {
 
           <div className="mb-3">
             <label className="form-label small text-muted">Thời gian đã chọn</label>
-
             <div className="row g-2">
               <div className="col">
                 <input
@@ -166,7 +180,6 @@ navigate("/payment", {
                   readOnly
                 />
               </div>
-
               <div className="col">
                 <input
                   type="text"
@@ -179,7 +192,6 @@ navigate("/payment", {
             </div>
           </div>
 
-          {/* Giá sân */}
           <div className="mb-3 p-2 bg-light rounded border">
             <strong>Giá sân: </strong>
             <span className="text-success fw-bold">

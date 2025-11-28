@@ -295,7 +295,12 @@ const TimeslotGrid = ({ courts, onSlotSelect, selectedSlotId }) => {
                     <SlotCard
                       slot={slot}
                       date={selectedDay}
-                      onSelect={onSlotSelect}
+                      onSelect={(selectedSlot) => {
+                        // Tìm tên sân từ courts dựa trên courId
+                        const selectedCourt = courts.find(court => court.courId === selectedSlot.courId || court.id === selectedSlot.courId);
+                        const courtName = selectedCourt ? selectedCourt.name || selectedCourt.courName : "Sân không xác định";
+                        onSlotSelect({ ...selectedSlot, courtName }); // Thêm courtName vào selectedSlot
+                      }}
                       isSelected={selectedSlotId === (slot.time_slot_id || slot.id)}
                     />
                   </div>

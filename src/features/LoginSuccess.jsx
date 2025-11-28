@@ -40,7 +40,7 @@ function LoginSuccess() {
       })
       .catch((err) => {
         console.error("Lỗi khi lấy /me:", err);
-        navigate("/login");
+        window.location.href = "/";
       });
   }, [navigate]);
 
