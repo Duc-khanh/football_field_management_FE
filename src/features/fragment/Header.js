@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaSearch, FaUser, FaShoppingCart, FaFutbol } from "react-icons/fa";
+import { FaSearch, FaUser, FaFutbol } from "react-icons/fa";
 import Swal from "sweetalert2";
 import "./Header.css";
 
-export default function Header() {
+export default function Header({ onSearch }) {
   const navigate = useNavigate();
 
   const [token, setToken] = useState(localStorage.getItem("authToken"));
   const [fullName, setFullName] = useState(localStorage.getItem("fullName"));
   const [open, setOpen] = useState(false);
+  const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
     setToken(localStorage.getItem("authToken"));
@@ -26,14 +27,12 @@ export default function Header() {
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.clear();
-
         Swal.fire({
           icon: "success",
           title: "Đã đăng xuất!",
           showConfirmButton: false,
           timer: 1000
         });
-
         setTimeout(() => {
           window.location.href = "http://localhost:8080/auth/login";
         }, 1000);
@@ -51,8 +50,12 @@ export default function Header() {
         window.location.href = "http://localhost:8080/auth/login";
       });
     } else {
-      setOpen(!open); // mở dropdown
+      setOpen(!open);
     }
+  };
+
+  const handleSearch = () => {
+    if (onSearch) onSearch(keyword);
   };
 
   return (
@@ -76,13 +79,18 @@ export default function Header() {
 
         {/* Search */}
         <div className="search-bar">
-          <input type="text" placeholder="Tìm sân thể thao" />
-          <FaSearch className="search-icon" />
+          <input
+            type="text"
+            placeholder="Tìm sân thể thao"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+          />
+          <FaSearch className="search-icon" onClick={handleSearch} />
         </div>
 
         {/* Navigation */}
         <nav className="nav-icons">
-
           <Link to="/booking" className="nav-item">
             <FaFutbol />
             <span>Đặt sân Online</span>
@@ -93,7 +101,6 @@ export default function Header() {
             <FaUser />
             <span>{token ? fullName : "Tài khoản"}</span>
 
-            {/* DROPDOWN */}
             {token && open && (
               <div className="dropdown">
                 <div className="dropdown-item" onClick={() => navigate("/profile")}>
@@ -105,7 +112,6 @@ export default function Header() {
               </div>
             )}
           </div>
-
         </nav>
       </div>
     </header>

@@ -38,8 +38,29 @@ const DayCard = ({ day, isSelected, onSelect }) => (
 );
 
 const SlotCard = ({ slot, date, onSelect, isSelected }) => {
+  // Tính toán trạng thái dựa trên thời gian hiện tại và status
+  const now = new Date();
+  let slotDateTime = null;
+  if (slot.date && slot.start_time) {
+    slotDateTime = new Date(`${slot.date}T${slot.start_time}`);
+  }
+  const isPast = slotDateTime ? slotDateTime < now : false;
+
+  let displayStatus = "";
+  let canSelect = false;
+  if (slot.status === "booked") {
+    displayStatus = "Đã đặt";
+    canSelect = false;
+  } else if (isPast) {
+    displayStatus = "Quá hạn";
+    canSelect = false;
+  } else {
+    displayStatus = `${slot.price}K`;
+    canSelect = true;
+  }
+
   const handleClick = () => {
-    if (slot.status === "available") onSelect({ ...slot, date });
+    if (canSelect) onSelect({ ...slot, date });
   };
 
   // Hàm helper để cắt chuỗi giờ an toàn (ví dụ: "07:00:00" -> "07:00")
@@ -55,9 +76,9 @@ const SlotCard = ({ slot, date, onSelect, isSelected }) => {
     <div
       className={`card mb-2 ${isSelected ? "border-success" : ""}`}
       style={{ 
-        cursor: slot.status === "available" ? "pointer" : "not-allowed", 
+        cursor: canSelect ? "pointer" : "not-allowed", 
         fontSize: "0.85rem",
-        backgroundColor: slot.status === "available" ? "#fff" : "#f8f9fa" 
+        backgroundColor: canSelect ? "#fff" : "#f8f9fa" 
       }}
       onClick={handleClick}
     >
@@ -65,11 +86,7 @@ const SlotCard = ({ slot, date, onSelect, isSelected }) => {
         {/* Hiển thị giờ đậm và rõ ràng */}
         <h6 className="card-title mb-1 fw-bold">{displayTime}</h6>
         <small className="text-muted">
-          {slot.status === "available"
-            ? `${slot.price}K`
-            : slot.status === "booked"
-            ? "Đã đặt"
-            : "Quá hạn"}
+          {displayStatus}
         </small>
       </div>
     </div>
