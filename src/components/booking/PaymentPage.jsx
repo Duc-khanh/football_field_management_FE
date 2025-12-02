@@ -118,7 +118,7 @@ export default function PaymentPage() {
         timerProgressBar: true,
       });
 
-      setTimeout(() => navigate("/my-bookings"), 2000); // Chuyển về trang lịch sử đặt
+      setTimeout(() => navigate("/"), 2000); // Chuyển về trang lịch sử đặt
 
     } catch (err) {
       console.error(err);
