@@ -195,7 +195,7 @@ const BookingForm = ({ selectedSlot }) => {
           <div className="mb-3 p-2 bg-light rounded border">
             <strong>Giá sân: </strong>
             <span className="text-success fw-bold">
-              {selectedSlot?.price?.toLocaleString()}₫
+              {selectedSlot?.price?.toLocaleString()}.000
             </span>
           </div>
 

@@ -164,7 +164,7 @@ export default function PaymentPage() {
           </div>
           <div className="row">
             <div className="col-6"><strong>Giá:</strong></div>
-            <div className="col-6 text-success fw-bold">{bookingData.price?.toLocaleString()}₫</div>
+            <div className="col-6 text-success fw-bold">{bookingData.price?.toLocaleString()}.000</div>
           </div>
           <div className="row">
             <div className="col-6"><strong>Tên khách:</strong></div>

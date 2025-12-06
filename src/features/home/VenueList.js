@@ -9,60 +9,62 @@ import {
   CardContent,
   Typography,
   Button,
-  Pagination,
   Box,
 } from "@mui/material";
 
-function VenueList() {
-  const [venues, setVenues] = useState([]);
-  const [topVenues, setTopVenues] = useState([]);
-  const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(1);
+function VenueList({ searchKeyword }) {
+  const [venues, setVenues] = useState([]);            // danh sách hiển thị
+  const [venuesBackup, setVenuesBackup] = useState([]); // danh sách gốc để search
+  const [visibleCount, setVisibleCount] = useState(8); // mặc định 8 sân
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    loadTopVenues();
+    loadVenues();
   }, []);
 
+  // 🔍 Tự động lọc khi keyword thay đổi
   useEffect(() => {
-    loadVenues();
-  }, [page]);
+    if (!searchKeyword || searchKeyword.trim() === "") {
+      setVenues(venuesBackup);
+      setVisibleCount(8);
+      return;
+    }
 
-  const loadTopVenues = () => {
-    axios
-      .get("http://localhost:8080/api/home/top5")
-      .then((res) => Array.isArray(res.data) && setTopVenues(res.data))
-      .catch((err) => console.error(err));
-  };
+    const filtered = venuesBackup.filter((v) =>
+      v.venueName.toLowerCase().includes(searchKeyword.toLowerCase())
+    );
+
+    setVenues(filtered);
+    setVisibleCount(8);
+
+  }, [searchKeyword, venuesBackup]);
 
   const loadVenues = () => {
     axios
-      .get(`http://localhost:8080/api/home?page=${page}&size=10`)
+      .get("http://localhost:8080/api/home?size=200") // lấy nhiều để show more
       .then((res) => {
-        const content = Array.isArray(res.data) ? res.data : res.data?.content || [];
-        setVenues(content);
-        setTotalPages(res.data?.totalPages || 1);
+        const list = Array.isArray(res.data) ? res.data : res.data?.content || [];
+        setVenues(list);
+        setVenuesBackup(list);
       })
       .catch((err) => console.error(err));
   };
 
-  const handlePageChange = (event, value) => {
-    setPage(value - 1); // MUI Pagination bắt đầu từ 1, nhưng state page bắt đầu từ 0
+  const handleShowMore = () => {
+    setVisibleCount((prev) => prev + 8);
   };
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
-      {/* ============ TOP VENUE ============ */}
-      
-
-      {/* ============ VENUE LIST ============ */}
       <Typography variant="h4" component="h2" sx={{ textAlign: "center", mb: 3 }}>
         Danh sách sân bóng
       </Typography>
-      <Grid container spacing={3} sx={{ mb: 5, justifyContent: 'center' }}>
-        {venues.map((v) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={v.venueId}> {/* 4 cột trên lg (12/4=3) */}
+
+      {/* Danh sách sân */}
+      <Grid container spacing={3} sx={{ mb: 5, justifyContent: "center" }}>
+        {venues.slice(0, visibleCount).map((v) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={v.venueId}>
             <Card
               sx={{
                 maxWidth: 345,
@@ -85,6 +87,7 @@ function VenueList() {
                 onClick={() => navigate(`/venue/${v.venueId}`)}
                 sx={{ cursor: "pointer" }}
               />
+
               <CardContent sx={{ flexGrow: 1, textAlign: "center" }}>
                 <Typography gutterBottom variant="h6" component="div">
                   {v.venueName}
@@ -98,6 +101,7 @@ function VenueList() {
                 <Typography variant="body2" color="text.secondary">
                   Giá: {v.price ? `${v.price} VNĐ/giờ` : "Liên hệ"}
                 </Typography>
+
                 <Button
                   variant="contained"
                   color="success"
@@ -112,15 +116,23 @@ function VenueList() {
         ))}
       </Grid>
 
-      {/* Pagination */}
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-        <Pagination
-          count={totalPages}
-          page={page + 1}
-          onChange={handlePageChange}
-          color="primary"
-        />
-      </Box>
+      {/* NÚT XEM THÊM */}
+      {visibleCount < venues.length && (
+        <Box sx={{ textAlign: "center", mb: 4 }}>
+          <Button
+            variant="outlined"
+            onClick={handleShowMore}
+            sx={{
+              borderRadius: "50%",
+              width: 60,
+              height: 60,
+              fontSize: "24px",
+            }}
+          >
+            ↓
+          </Button>
+        </Box>
+      )}
     </Container>
   );
 }

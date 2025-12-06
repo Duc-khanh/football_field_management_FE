@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 import { Routes, Route, Outlet } from "react-router-dom";
@@ -11,28 +11,29 @@ import VenueDetail from "./features/home/VenueDetail";
 import BookCourt from "./features/bookings/BookCourt";
 import MyBookings from "./features/accout/MyBookings";
 
-// Auth Components
+// Auth
 import Login from "./features/auth/login";
 import Register from "./features/auth/register";
 import OwnerRegistration from "./features/auth/OwnerRegistration";
 import LoginSuccess from "./features/LoginSuccess";
-
 import Profile from "./features/accout/profile";
 
-// NEW Payment Component
+// Payment
 import Payment from "./components/booking/PaymentPage";
 
-function Layout() {
+function Layout({ searchKeyword, setSearchKeyword }) {
   return (
     <>
-      <Header />
-      <Outlet />
+      <Header onSearch={setSearchKeyword} />
+      <Outlet context={{ searchKeyword }} />
       <Footer />
     </>
   );
 }
 
 function App() {
+  const [searchKeyword, setSearchKeyword] = useState("");
+
   return (
     <Routes>
 
@@ -43,25 +44,29 @@ function App() {
       <Route path="/login-success" element={<LoginSuccess />} />
 
       {/* Pages with Header/Footer */}
-      <Route path="/" element={<Layout />}>
-
-        <Route index element={
-          <>
-            <HeroBanner />
-            <VenueList />
-          </>
-        } />
+      <Route
+        path="/"
+        element={<Layout searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} />}
+      >
+        <Route
+          index
+          element={
+            <>
+              <HeroBanner />
+              {/* 🔥 FIX QUAN TRỌNG - TRUYỀN searchKeyword */}
+              <VenueList searchKeyword={searchKeyword} />
+            </>
+          }
+        />
 
         <Route path="venue/:venueId" element={<VenueDetail />} />
         <Route path="book/:courtId" element={<BookCourt />} />
         <Route path="profile" element={<Profile />} />
-        
-<Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="my-bookings" element={<MyBookings />} />
 
-        {/* ⭐ NEW PAYMENT ROUTE ⭐ */}
+        {/* Payment */}
         <Route path="payment" element={<Payment />} />
         <Route path="payment/:bookingId" element={<Payment />} />
-
       </Route>
 
     </Routes>

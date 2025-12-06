@@ -23,7 +23,7 @@ export default function Header({ onSearch }) {
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Đăng xuất",
-      cancelButtonText: "Hủy"
+      cancelButtonText: "Hủy",
     }).then((result) => {
       if (result.isConfirmed) {
         localStorage.clear();
@@ -31,7 +31,7 @@ export default function Header({ onSearch }) {
           icon: "success",
           title: "Đã đăng xuất!",
           showConfirmButton: false,
-          timer: 1000
+          timer: 1000,
         });
         setTimeout(() => {
           window.location.href = "http://localhost:8080/auth/login";
@@ -45,7 +45,7 @@ export default function Header({ onSearch }) {
       Swal.fire({
         icon: "warning",
         title: "Bạn chưa đăng nhập",
-        confirmButtonText: "Đăng nhập"
+        confirmButtonText: "Đăng nhập",
       }).then(() => {
         window.location.href = "http://localhost:8080/auth/login";
       });
@@ -55,6 +55,12 @@ export default function Header({ onSearch }) {
   };
 
   const handleSearch = () => {
+    if (!keyword.trim()) return;
+
+    // ❌ BỎ DÒNG navigate("/booking") — không cần chuyển trang
+    // navigate("/booking");
+
+    // ✔️ Gửi từ khóa về cha để VenueList lọc
     if (onSearch) onSearch(keyword);
   };
 
@@ -80,18 +86,35 @@ export default function Header({ onSearch }) {
         {/* Search */}
         <div className="search-bar">
           <input
-            type="text"
-            placeholder="Tìm sân thể thao"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-          />
-          <FaSearch className="search-icon" onClick={handleSearch} />
+  type="text"
+  placeholder="Tìm sân thể thao..."
+  value={keyword}
+  onChange={(e) => {
+    setKeyword(e.target.value);
+
+    // Nếu người dùng xóa hết → reset danh sách
+    if (e.target.value === "") {
+      if (onSearch) onSearch("");
+    }
+  }}
+  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+/>
+
+<Link
+  to="/"
+  className="logo-link"
+  onClick={() => {
+    setKeyword("");   // reset input
+    if (onSearch) onSearch(""); // reset search
+  }}
+>
+</Link>
+
         </div>
 
         {/* Navigation */}
         <nav className="nav-icons">
-          <Link to="/booking" className="nav-item">
+          <Link to="/" className="nav-item">
             <FaFutbol />
             <span>Đặt sân Online</span>
           </Link>
