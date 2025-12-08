@@ -102,7 +102,11 @@ export default function Profile() {
           </div>
           <div className="menu-item active">Thông tin cá nhân</div>
           <div className="menu-item">Địa chỉ</div>
-          <div className="menu-item">Đơn hàng của tôi</div>
+
+          
+          <Link to="/favorites " className="nav-link">
+    <div className="menu-item">Danh sách sân yêu thích</div>
+</Link>
          
 
 <Link to="/my-bookings" className="nav-link">

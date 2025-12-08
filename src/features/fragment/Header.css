@@ -1,17 +1,32 @@
+/* ----- HEADER FIXED ----- */
 .header {
+  position: fixed;          /* giữ cố định */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
   background-color: #fff;
   border-bottom: 1px solid #eee;
   padding: 12px 48px;
   font-family: "Inter", sans-serif;
+  transition: all 0.25s ease;     /* mượt khi thu nhỏ */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
+/* Khi scroll xuống → header nhỏ lại */
+.header.scrolled {
+  padding: 6px 36px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+/* Container chính */
 .header-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Logo */
+/* ----- LOGO ----- */
 .logo-section {
   display: flex;
   align-items: center;
@@ -42,7 +57,7 @@
   letter-spacing: 1px;
 }
 
-/* Search bar */
+/* ----- SEARCH BAR ----- */
 .search-bar {
   flex: 1;
   display: flex;
@@ -63,12 +78,7 @@
   color: #555;
 }
 
-.search-icon {
-  font-size: 22px;
-  color: #888;
-}
-
-/* Navigation */
+/* ----- NAVIGATION ----- */
 .nav-icons {
   display: flex;
   align-items: center;
@@ -94,18 +104,7 @@
   color: #e63946;
 }
 
-.cart-count {
-  position: absolute;
-  top: -7px;
-  right: -11px;
-  background: #e63946;
-  color: #fff;
-  font-size: 13px;
-  font-weight: bold;
-  border-radius: 50%;
-  padding: 3px 6px;
-}
-
+/* Dropdown */
 .account {
   position: relative;
 }
@@ -138,8 +137,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-
-/* Responsive */
+/* ----- RESPONSIVE ----- */
 @media (max-width: 768px) {
   .header-container {
     flex-direction: column;
@@ -154,4 +152,9 @@
   .nav-icons {
     gap: 20px;
   }
+}
+
+/* ----- FIX OFFSET CONTENT ----- */
+body {
+  padding-top: 95px; /* để không bị che bởi header fixed */
 }
