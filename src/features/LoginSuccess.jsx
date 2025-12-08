@@ -28,12 +28,14 @@ function LoginSuccess() {
         return res.json();
       })
       .then((data) => {
+    localStorage.setItem("userEmail", data.email || "");
+    localStorage.setItem("fullName", data.fullName || "Người dùng");
+    localStorage.setItem("userRole", data.role || "");
+    localStorage.setItem("userAvatar", data.avatar || "");
 
-        // Lưu thông tin user
-        localStorage.setItem("userEmail", data.email || "");
-        localStorage.setItem("fullName", data.fullName || "Người dùng");
-        localStorage.setItem("userRole", data.role || "");
-        localStorage.setItem("userAvatar", data.avatar || "");
+    // ⭐ Thêm dòng này
+    localStorage.setItem("accountId", data.accountId || data.id || data.userId);
+
 
         // Điều hướng về Home
         window.location.href = "/";

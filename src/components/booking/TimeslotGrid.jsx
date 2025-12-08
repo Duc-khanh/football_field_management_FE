@@ -38,16 +38,18 @@ const DayCard = ({ day, isSelected, onSelect }) => (
 );
 
 const SlotCard = ({ slot, date, onSelect, isSelected }) => {
-  // Tính toán trạng thái dựa trên thời gian hiện tại và status
   const now = new Date();
   let slotDateTime = null;
+
   if (slot.date && slot.start_time) {
     slotDateTime = new Date(`${slot.date}T${slot.start_time}`);
   }
+
   const isPast = slotDateTime ? slotDateTime < now : false;
 
   let displayStatus = "";
   let canSelect = false;
+
   if (slot.status === "booked") {
     displayStatus = "Đã đặt";
     canSelect = false;
@@ -63,35 +65,52 @@ const SlotCard = ({ slot, date, onSelect, isSelected }) => {
     if (canSelect) onSelect({ ...slot, date });
   };
 
-  // Hàm helper để cắt chuỗi giờ an toàn (ví dụ: "07:00:00" -> "07:00")
-  const formatTime = (t) => (t && t.length >= 5) ? t.slice(0, 5) : t;
+  const formatTime = (t) => (t && t.length >= 5 ? t.slice(0, 5) : t);
 
-  // Logic hiển thị giờ: Ưu tiên slot.time (nếu có), nếu không thì ghép start_time - end_time
-  const displayTime = slot.time || 
-    (slot.start_time && slot.end_time 
-      ? `${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}` 
+  const displayTime =
+    slot.time ||
+    (slot.start_time && slot.end_time
+      ? `${formatTime(slot.start_time)} - ${formatTime(slot.end_time)}`
       : "N/A");
 
   return (
     <div
       className={`card mb-2 ${isSelected ? "border-success" : ""}`}
-      style={{ 
-        cursor: canSelect ? "pointer" : "not-allowed", 
+      style={{
+        cursor: canSelect ? "pointer" : "not-allowed",
         fontSize: "0.85rem",
-        backgroundColor: canSelect ? "#fff" : "#f8f9fa" 
+
+        /* ⭐ Màu cố định khi được chọn */
+        backgroundColor: isSelected
+          ? "#d1f7d6" // màu khi đã chọn
+          : canSelect
+          ? "#ffffff"
+          : "#f3f3f3",
+
+        transition: "0.2s",
       }}
       onClick={handleClick}
+
+      /* ⭐ Không dùng hover khi slot đã được chọn */
+      onMouseEnter={(e) => {
+        if (!canSelect || isSelected) return; 
+        e.currentTarget.style.backgroundColor = "#eefdf1";
+      }}
+      onMouseLeave={(e) => {
+        if (isSelected) return; // Giữ nguyên màu đã chọn
+        e.currentTarget.style.backgroundColor = canSelect ? "#ffffff" : "#f3f3f3";
+      }}
     >
       <div className="card-body p-2 text-center">
-        {/* Hiển thị giờ đậm và rõ ràng */}
         <h6 className="card-title mb-1 fw-bold">{displayTime}</h6>
-        <small className="text-muted">
-          {displayStatus}
-        </small>
+        <small className="text-muted">{displayStatus}</small>
       </div>
     </div>
   );
 };
+
+
+
 
 const TimeslotGrid = ({ courts, onSlotSelect, selectedSlotId }) => {
   const [selectedCourtId, setSelectedCourtId] = useState("");

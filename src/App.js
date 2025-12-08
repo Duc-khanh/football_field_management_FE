@@ -10,6 +10,7 @@ import VenueList from "./features/home/VenueList";
 import VenueDetail from "./features/home/VenueDetail";
 import BookCourt from "./features/bookings/BookCourt";
 import MyBookings from "./features/accout/MyBookings";
+import FavoriteList from "./features/accout/FavoriteList";
 
 // Auth
 import Login from "./features/auth/login";
@@ -63,6 +64,8 @@ function App() {
         <Route path="book/:courtId" element={<BookCourt />} />
         <Route path="profile" element={<Profile />} />
         <Route path="my-bookings" element={<MyBookings />} />
+        <Route path="favorites" element={<FavoriteList />} />
+
 
         {/* Payment */}
         <Route path="payment" element={<Payment />} />

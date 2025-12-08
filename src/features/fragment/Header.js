@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaSearch, FaUser, FaFutbol } from "react-icons/fa";
+import { FaUser, FaFutbol } from "react-icons/fa";
 import Swal from "sweetalert2";
 import "./Header.css";
 
@@ -12,11 +12,29 @@ export default function Header({ onSearch }) {
   const [open, setOpen] = useState(false);
   const [keyword, setKeyword] = useState("");
 
+  // ----- EFFECT: LẤY TOKEN & FULLNAME -----
   useEffect(() => {
     setToken(localStorage.getItem("authToken"));
     setFullName(localStorage.getItem("fullName"));
   }, []);
 
+  // ----- EFFECT: SCROLL THU NHỎ HEADER -----
+  useEffect(() => {
+    const handleScroll = () => {
+      const header = document.querySelector(".header");
+
+      if (window.scrollY > 20) {
+        header.classList.add("scrolled");
+      } else {
+        header.classList.remove("scrolled");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // ----- LOGOUT -----
   const handleLogout = () => {
     Swal.fire({
       title: "Bạn có chắc muốn đăng xuất?",
@@ -40,6 +58,7 @@ export default function Header({ onSearch }) {
     });
   };
 
+  // ----- CLICK ACCOUNT -----
   const handleAccountClick = () => {
     if (!token) {
       Swal.fire({
@@ -54,13 +73,9 @@ export default function Header({ onSearch }) {
     }
   };
 
+  // ----- SEARCH -----
   const handleSearch = () => {
     if (!keyword.trim()) return;
-
-    // ❌ BỎ DÒNG navigate("/booking") — không cần chuyển trang
-    // navigate("/booking");
-
-    // ✔️ Gửi từ khóa về cha để VenueList lọc
     if (onSearch) onSearch(keyword);
   };
 
@@ -86,30 +101,15 @@ export default function Header({ onSearch }) {
         {/* Search */}
         <div className="search-bar">
           <input
-  type="text"
-  placeholder="Tìm sân thể thao..."
-  value={keyword}
-  onChange={(e) => {
-    setKeyword(e.target.value);
-
-    // Nếu người dùng xóa hết → reset danh sách
-    if (e.target.value === "") {
-      if (onSearch) onSearch("");
-    }
-  }}
-  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-/>
-
-<Link
-  to="/"
-  className="logo-link"
-  onClick={() => {
-    setKeyword("");   // reset input
-    if (onSearch) onSearch(""); // reset search
-  }}
->
-</Link>
-
+            type="text"
+            placeholder="Tìm sân thể thao..."
+            value={keyword}
+            onChange={(e) => {
+              setKeyword(e.target.value);
+              if (e.target.value === "" && onSearch) onSearch("");
+            }}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          />
         </div>
 
         {/* Navigation */}
